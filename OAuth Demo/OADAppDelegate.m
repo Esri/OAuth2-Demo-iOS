@@ -63,13 +63,23 @@
     NSLog(@"URL: %@", url);
     if([[url host] isEqualToString:@"auth"]) {
         NSDictionary *params = [self parseQueryString:[[url fragment] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+
+        // Store the access token
         NSLog(@"Saving new token: %@", params);
         [[NSUserDefaults standardUserDefaults] setObject:[params objectForKey:@"access_token"] forKey:OADTokenDefaultsName];
+
+        // Calculate the expiration date so we know if the token is invalid
         NSDate *expDate = [NSDate dateWithTimeIntervalSinceNow:[[params objectForKey:@"expires_in"] integerValue]];
         NSLog(@"Expires at: %@", expDate);
         [[NSUserDefaults standardUserDefaults] setObject:expDate forKey:OADTokenExpirationDefaultsName];
+        
+        // Store the username
         [[NSUserDefaults standardUserDefaults] setObject:[params objectForKey:@"username"] forKey:OADUsernameDefaultsName];
+        
+        // Save
         [[NSUserDefaults standardUserDefaults] synchronize];
+
+        // Notify the view that a new token is available
         [[NSNotificationCenter defaultCenter] postNotificationName:OADNewTokenAvailable object:self];
     }
     
