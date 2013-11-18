@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString *const OADTokenDefaultsName = @"OADTokenDefaultsName";
+static NSString *const OADUsernameDefaultsName = @"OADUsernameDefaultsName";
+static NSString *const OADTokenExpirationDefaultsName = @"OADTokenExpirationDefaultsName";
+static NSString *const OADNewTokenAvailable = @"OADNewTokenAvailable";
+
 @interface OADAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
